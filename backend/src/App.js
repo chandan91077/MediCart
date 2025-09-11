@@ -90,8 +90,11 @@ mongoose.connect(MongoURI)
 .catch(err => console.log(err));
 
 
+// Root route for health check or friendly message
+app.get('/', (_req, res) => res.json({ msg: 'medi-cart API is awake 🚀' }));
+
 // Routes
-app.use("/",auth);
+app.use("/auth",auth);
 app.use("/pharmacist",pharmacist)
 app.use("/admin",admin)
 app.use("/patient",patient)
