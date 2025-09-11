@@ -1,3 +1,5 @@
+// Health check route for Vercel root
+app.get('/', (_req, res) => res.json({ msg: 'medi-cart API is awake 🚀' }));
 module.exports = app;
 // External variables
 const express = require("express");
