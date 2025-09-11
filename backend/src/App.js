@@ -1,3 +1,4 @@
+module.exports = app;
 // External variables
 const express = require("express");
 const bodyParser=require('body-parser');
@@ -12,8 +13,6 @@ const {addAdmin,viewPatientDet, PatientDetailsResults} = require("./Routes/admin
 const cors = require('cors');
 var cookies = require("cookie-parser");
 
-const http = require("http");
-const{Server} = require("socket.io");
 const fs = require('fs');
 
 //App variables
@@ -45,36 +44,13 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
-const server = http.createServer(app);
+
 
 app.use(cors(corsOptions));
 
-const io = new Server(server,{
-cors: {
-  origin: "http://localhost:3001",
-  methods: ["GET","POST"],
-},
-});
-io.on("connection", (socket)=>{
-console.log(`user Connected: ${socket.id}`);
-
-socket.on("join_room",(data)=>{
-  socket.join(data);
-  console.log(`user with ID: ${socket.id} joined room: ${data}`)
-
-});
-
-socket.on("send_message",(data=>{
-  socket.to(data.room).emit("receive_message",data);
-}));
 
 
-socket.on("disconnect",()=>{
-  console.log("User disconnected", socket.id);
-  });
-});
 
-const port = process.env.PORT || "8001";
 
 
 // configurations
@@ -82,10 +58,6 @@ const port = process.env.PORT || "8001";
 mongoose.connect(MongoURI)
 .then(()=>{
   console.log("MongoDB is now connected!")
-// Starting server
- server.listen(port, () => {
-    console.log(`Listening to requests on http://localhost:${port}`);
-  })
 })
 .catch(err => console.log(err));
 
