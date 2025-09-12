@@ -4,7 +4,7 @@ import ScrollToButtom from 'react-scroll-to-bottom';
 import "../../App.css";
 import { useParams } from "react-router-dom";
 import io from 'socket.io-client';
-const socket = io.connect("http://localhost:8001");
+const socket = io.connect(process.env.REACT_APP_API_URL || "http://localhost:8001");
 
 
 function ChatMessages({ socket}) {
